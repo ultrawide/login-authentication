@@ -31,5 +31,19 @@ app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
 
 app.get("/", (req, res) => res.render("index"));
+app.get("/sign-up", (req, res) => res.render("sign-up-form"));
+
+// todo: sanitize and validate inputs
+app.post("/sign-up", (req, res, next) => {
+    const user = new User({
+        username: req.body.username,
+        password: req.body.password
+    }).save(err => {
+        if (err) {
+            return next(err);
+        }
+        res.redirect("/");
+    });
+});
 
 app.listen(3000, () => console.log("app listening on port 3000!"));
