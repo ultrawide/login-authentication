@@ -25,7 +25,7 @@ const app = express();
 app.set("views", __dirname);
 app.set("view engine", "ejs");
 
-app.use(session({ secrets: "cats", resave: false, saveUninitialized: true}));
+app.use(session({ secret: "cats", resave: false, saveUninitialized: true}));
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));

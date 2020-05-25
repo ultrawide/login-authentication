@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node ./app.js",
+    "devstart": "nodemon ./app.js",
+    "serverstart": "DEBUG=passport:* npm run devstart"
   },
   "repository": {
     "type": "git",
@@ -21,6 +23,7 @@
     "express": "^4.17.1",
     "express-session": "^1.17.1",
     "mongoose": "^5.9.15",
+    "nodemon": "^2.0.4",
     "passport": "^0.4.1",
     "passport-local": "^1.0.0"
   }
