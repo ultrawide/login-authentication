@@ -6,6 +6,7 @@ const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const mongoose = require("mongoose");
+const bcrypt = require("bcryptjs")
 const Schema = mongoose.Schema;
 
 const mongoDb = "mongodb+srv://ultrawide:dummy123@passport-cluster-i6uda.azure.mongodb.net/test?retryWrites=true&w=majority";
@@ -47,15 +48,21 @@ app.get("/sign-up", (req, res) => res.render("sign-up-form"));
 
 // todo: sanitize and validate inputs
 app.post("/sign-up", (req, res, next) => {
-    const user = new User({
-        username: req.body.username,
-        password: req.body.password
-    }).save(err => {
+    bcrypt.hash(req.body.password, 10, (err, hashedPassword) => {
         if (err) {
             return next(err);
         }
-        res.redirect("/");
-    });
+        // otherwise, store hashedPassword in DB
+        const user = new User({
+            username: req.body.username,
+            password: hashedPassword
+        }).save(err => {
+            if (err) {
+                return next(err);
+            }
+            res.redirect("/");
+        });
+      });
 });
 
 // This middleware performs numerous functions behind the scenes. 
