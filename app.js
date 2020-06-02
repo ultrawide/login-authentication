@@ -46,6 +46,15 @@ app.post("/sign-up", (req, res, next) => {
     });
 });
 
+// todo: sanitize inputs
+app.post(
+    "/log-in",
+    passport.authenticate("local", {
+      successRedirect: "/",
+      failureRedirect: "/"
+    })
+);
+
 // setting up the LocalStrategy
 passport.use(
     new LocalStrategy((username, password, done) => {
