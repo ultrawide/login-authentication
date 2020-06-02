@@ -30,7 +30,13 @@ app.use(passport.initialize());
 app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
 
-app.get("/", (req, res) => res.render("index"));
+app.get("/", (req, res) => {
+    res.render("index", { user: req.user });
+});
+app.get("/log-out", (req, res) => {
+    req.logout();
+    res.redirect("/");
+});
 app.get("/sign-up", (req, res) => res.render("sign-up-form"));
 
 // todo: sanitize and validate inputs
@@ -46,7 +52,14 @@ app.post("/sign-up", (req, res, next) => {
     });
 });
 
-// todo: sanitize inputs
+// This middleware performs numerous functions behind the scenes. 
+// Among other things, it looks at the request body for parameters named 
+// username and password then runs the LocalStrategy function that we defined 
+// earlier to sece if the username and password are in the database. It 
+// then creates a session cookie which gets stored in the user’s browser, 
+// and that we can access in all future requests to see whether or not that
+// user is logged it. It can also redirect you to different routes based on 
+// whether the login is a success or a failure. 
 app.post(
     "/log-in",
     passport.authenticate("local", {
