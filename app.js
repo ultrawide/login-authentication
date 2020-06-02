@@ -46,4 +46,32 @@ app.post("/sign-up", (req, res, next) => {
     });
 });
 
+// setting up the LocalStrategy
+passport.use(
+    new LocalStrategy((username, password, done) => {
+        User.findOne({ username: username }, (err, user) => {
+            if (err) {
+                return done(err);
+            }
+            if (!user) {
+                return done(null, false, { msg: "Incorrect username" });
+            }
+            if (user.password !== password) {
+                return done(null, false, { msg: "Incorrect password" });
+            }
+            return done(null, user);
+        });
+    })
+);
+
+passport.serializeUser((user, done) => {
+    done(null, user.id);
+})
+
+passport.deserializeUser(function(id, done) {
+    User.findById(id, (err, user) => {
+        done(err, user);
+    });
+});
+
 app.listen(3000, () => console.log("app listening on port 3000!"));
