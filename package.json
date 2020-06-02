@@ -17,6 +17,9 @@
   "bugs": {
     "url": "https://github.com/ultrawide/passport-js-oauth/issues"
   },
+  "engines": {
+    "node": "13.13.0"
+  },
   "homepage": "https://github.com/ultrawide/passport-js-oauth#readme",
   "dependencies": {
     "bcryptjs": "^2.4.3",
