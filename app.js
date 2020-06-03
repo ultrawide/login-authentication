@@ -6,10 +6,12 @@ const session = require("express-session");
 const passport = require("passport");
 const LocalStrategy = require("passport-local").Strategy;
 const mongoose = require("mongoose");
-const bcrypt = require("bcryptjs")
+const bcrypt = require("bcryptjs");
+require('dotenv').config();
+
 const Schema = mongoose.Schema;
 
-const mongoDb = "mongodb+srv://ultrawide:dummy123@passport-cluster-i6uda.azure.mongodb.net/test?retryWrites=true&w=majority";
+const mongoDb = process.env.MONGODB;
 mongoose.connect(mongoDb, { useUnifiedTopology: true, useNewUrlParser: true });
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "mongo connection error"));
